@@ -8,6 +8,7 @@ public class SquarePanel extends JPanel {
 
     private int row, column, color, type;
     private ChessGUI cg;
+    private TabelaGUI tg;
     private JLabel imageLabel;
 
     private static Image pieceImage[][] = new Image[2][6];
@@ -25,6 +26,18 @@ public class SquarePanel extends JPanel {
         row = x;
         column = y;
         cg = c;
+        setPreferredSize(new Dimension(42, 42));
+        imageLabel = new JLabel();
+        imageLabel.setPreferredSize(new Dimension(32, 32));
+        add(imageLabel);
+        //loadPieceImages();
+        addMouseListener(new SquareMouseListener());
+    }
+    
+    public SquarePanel(int x, int y, TabelaGUI g) {
+        row = x;
+        column = y;
+        tg = g;
         setPreferredSize(new Dimension(42, 42));
         imageLabel = new JLabel();
         imageLabel.setPreferredSize(new Dimension(32, 32));

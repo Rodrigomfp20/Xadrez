@@ -7,15 +7,16 @@ import javax.swing.*;
 public class ChessGUI extends JPanel {
 
     private SquarePanel[][] board = new SquarePanel[8][8];
+    
 
     private JPanel chessPanel = new JPanel();
     
     private JPanel mesa = new JPanel();
 
     public ChessGUI() {
-        chessPanel.setBackground(Color.red);
+        chessPanel.setBackground(Color.black);
         SquarePanel.loadPieceImages();
-        chessPanel.setSize(360, 360);
+        chessPanel.setSize(380, 380);
         chessPanel.setLayout(new GridLayout(8, 8));
         
         for (int i = 0; i < 8; i++) {

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-package xadrez.server;
+package XadrezRMI;
 
 import java.net.InetAddress;
 import java.rmi.RemoteException;
@@ -16,7 +16,7 @@ import java.util.Scanner;
  *
  * @author raulm
  */
-public class XadrezServer extends UnicastRemoteObject implements InterfaceCliente {
+public class XadrezServer extends UnicastRemoteObject implements InterfaceJogo {
 
     private static ArrayList<Cliente> clientes;
     private static Mesa mesa;
@@ -82,6 +82,11 @@ public class XadrezServer extends UnicastRemoteObject implements InterfaceClient
                 System.out.println("Devera digitar um numero.");
             }
         }
+    }
+
+    @Override
+    public void ola() throws RemoteException {
+        System.out.println("Ola do cliente");
     }
 
 }

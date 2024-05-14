@@ -1,3 +1,5 @@
+package XadrezRMI;
+
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -46,7 +48,6 @@ public class IniciarJogador extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(310, 330));
-        setPreferredSize(new java.awt.Dimension(310, 330));
         setResizable(false);
 
         jLabel1.setText("IP do Servidor");
@@ -113,7 +114,7 @@ public class IniciarJogador extends javax.swing.JFrame {
             InetAddress ia = InetAddress.getByName(ip);
             Registry reg = LocateRegistry.getRegistry(ia.getHostAddress(), porto);
             InterfaceJogo objRemoto = (InterfaceJogo) reg.lookup("Xadrez");
-            
+            objRemoto.ola();
             JOptionPane.showMessageDialog(this, "Conectado com sucesso","Sucesso",JOptionPane.INFORMATION_MESSAGE);
 
         } catch (UnknownHostException ex) {

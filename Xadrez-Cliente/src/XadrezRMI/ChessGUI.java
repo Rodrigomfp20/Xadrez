@@ -1,4 +1,4 @@
-package xadrez.server;
+package XadrezRMI;
 
 
 
@@ -54,6 +54,10 @@ public class ChessGUI extends JPanel {
         System.out.printf("mouse pressed at: %d - %d\n", x, y);
         board[0][4].setPiece(board[x][y].getColor(),board[x][y].getType());
         
+    }
+    
+    public void setboard(SquarePanel[][] board){
+        this.board = board;
     }
 
     static public void main(String[] args) {

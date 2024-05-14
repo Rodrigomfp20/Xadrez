@@ -1,4 +1,4 @@
-package xadrez.server;
+package XadrezRMI;
 
 
 import java.awt.BorderLayout;

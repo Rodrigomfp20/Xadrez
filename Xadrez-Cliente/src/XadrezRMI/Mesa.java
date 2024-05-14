@@ -1,3 +1,5 @@
+package XadrezRMI;
+
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -59,7 +61,6 @@ public class Mesa extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1140, 700));
-        setPreferredSize(new java.awt.Dimension(1140, 800));
         setSize(new java.awt.Dimension(1140, 700));
 
         chessBoard.setBackground(new java.awt.Color(255, 255, 30));

@@ -1,4 +1,4 @@
-package xadrez.server;
+package XadrezRMI;
 
 
 import java.awt.*;
@@ -54,7 +54,6 @@ public class SquarePanel extends JPanel {
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 6; j++) {
                 iconURL = ClassLoader.getSystemResource("images/" + imageFilename[i][j]);
-                System.out.println(iconURL);
                 pieceImage[i][j] = Toolkit.getDefaultToolkit().getImage(iconURL);
                 
             }

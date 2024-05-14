@@ -1,3 +1,5 @@
+package XadrezRMI;
+
 
 import java.awt.*;
 import java.awt.event.*;

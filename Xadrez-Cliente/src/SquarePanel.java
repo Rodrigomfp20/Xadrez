@@ -1,4 +1,3 @@
-package xadrez;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -7,7 +6,7 @@ import javax.swing.*;
 
 public class SquarePanel extends JPanel {
 
-    private int row, column;
+    private int row, column, color, type;
     private ChessGUI cg;
     private JLabel imageLabel;
 
@@ -56,7 +55,17 @@ public class SquarePanel extends JPanel {
     }
 
     public void setPiece(int color, int type) {
+        this.color = color;
+        this.type = type;
         imageLabel.setIcon(new ImageIcon(pieceImage[color][type]));
+    }
+    public int getColor(){
+        System.out.println("ola cor");
+        return color;
+    }
+    public int getType(){
+        System.out.println("ola tipo");
+        return type;
     }
 
     public void removePiece() {

@@ -1,4 +1,4 @@
-package xadrez;
+
 
 
 import java.awt.*;
@@ -49,6 +49,8 @@ public class ChessGUI extends JPanel {
 
     public void selected(int x, int y) {
         System.out.printf("mouse pressed at: %d - %d\n", x, y);
+        board[0][4].setPiece(board[x][y].getColor(),board[x][y].getType());
+        
     }
 
     static public void main(String[] args) {

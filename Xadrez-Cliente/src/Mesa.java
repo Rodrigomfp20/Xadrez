@@ -23,8 +23,9 @@ public class Mesa extends javax.swing.JFrame {
      */
     public Mesa() {
         initComponents();
-         
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -121,7 +122,6 @@ public class Mesa extends javax.swing.JFrame {
         jButton5.setLabel("Sair do Jogo");
 
         jPanel1.setPreferredSize(new java.awt.Dimension(100, 100));
-        jPanel1.setSize(new java.awt.Dimension(380, 95));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -188,7 +188,7 @@ public class Mesa extends javax.swing.JFrame {
                                             .addComponent(jLabel4)
                                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 47, Short.MAX_VALUE))))
+                                        .addGap(0, 50, Short.MAX_VALUE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 558, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))))
@@ -229,7 +229,7 @@ public class Mesa extends javax.swing.JFrame {
                     .addComponent(jButton3)
                     .addComponent(jButton4)
                     .addComponent(jButton5))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         pack();
@@ -277,10 +277,15 @@ public class Mesa extends javax.swing.JFrame {
             }
         });
     }
-
+public void alteraChessBoard(SquarePanel[][] board){
+    chessBoard.setboard(board);
+    
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private ChessGUI chessBoard;/*
     private javax.swing.JPanel chessBoard;
+    */
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

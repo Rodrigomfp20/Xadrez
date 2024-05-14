@@ -60,15 +60,4 @@ public class ChessGUI extends JPanel {
         this.board = board;
     }
 
-    static public void main(String[] args) {
-
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                ChessGUI mainFrame = new ChessGUI();
-                mainFrame.setVisible(true);
-
-            }
-        });
-
-    }
 }

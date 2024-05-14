@@ -62,7 +62,7 @@
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jButton2" max="32767" attributes="0"/>
-                                  <Component id="jScrollPane4" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane4" alignment="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -76,7 +76,7 @@
                                           <Component id="jScrollPane2" alignment="0" min="-2" pref="360" max="-2" attributes="0"/>
                                           <Component id="jButton1" alignment="1" min="-2" pref="73" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="50" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -309,7 +309,7 @@
         <Component class="javax.swing.JTextArea" name="listaObservadores">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
-            <Property name="columns" type="int" value="12"/>
+            <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
             <Property name="autoscrolls" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>

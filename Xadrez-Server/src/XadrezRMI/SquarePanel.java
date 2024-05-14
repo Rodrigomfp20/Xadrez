@@ -54,7 +54,6 @@ public class SquarePanel extends JPanel {
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 6; j++) {
                 iconURL = ClassLoader.getSystemResource("images/" + imageFilename[i][j]);
-                System.out.println(iconURL);
                 pieceImage[i][j] = Toolkit.getDefaultToolkit().getImage(iconURL);
                 
             }
@@ -75,11 +74,9 @@ public class SquarePanel extends JPanel {
         imageLabel.setIcon(new ImageIcon(pieceImage[color][type]));
     }
     public int getColor(){
-        System.out.println("ola cor");
         return color;
     }
     public int getType(){
-        System.out.println("ola tipo");
         return type;
     }
 

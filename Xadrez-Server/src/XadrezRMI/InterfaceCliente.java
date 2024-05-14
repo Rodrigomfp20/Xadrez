@@ -5,6 +5,7 @@
 package XadrezRMI;
 
 import java.rmi.Remote;
+import java.rmi.*;
 
 /**
  *
@@ -12,6 +13,12 @@ import java.rmi.Remote;
  */
 public interface InterfaceCliente extends Remote {
     
-    
-    
+    void notificar(String mensagem) throws RemoteException;
+    void alteranome(int player,String nome) throws RemoteException;
+    void adicionaObservador(String nome) throws RemoteException;
+    int getTipo() throws RemoteException;
+    void setTipo(int tipo) throws RemoteException;
+    InterfaceCliente getReferencia()throws RemoteException;
+    String getNomeUtilizador()throws RemoteException;
+
 }

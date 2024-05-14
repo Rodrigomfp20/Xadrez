@@ -22,17 +22,18 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCliente {
         super();
         this.nomeUtilizador = nomeUtilizador;
     }
+    
     Cliente(InterfaceCliente refCliente,int tipo,String nomeUtilizador) throws RemoteException{
         super();
         this.refCliente = refCliente;
         this.tipo = tipo;
         this.nomeUtilizador = nomeUtilizador;
     }
-
     @Override
     public void setTipo(int tipo)throws RemoteException {
         this.tipo = tipo;
     }
+    
 
     @Override
     public void notificar(String mensagem) throws RemoteException {
@@ -60,7 +61,8 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCliente {
         Jogo = new IniciarJogador();
         Jogo.setVisible(true);
     }
-        @Override
+
+    @Override
     public void adicionaObservador(String nome) throws RemoteException {
         Jogo.adicionaEspetador(nome);
     }

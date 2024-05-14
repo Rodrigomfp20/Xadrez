@@ -74,11 +74,9 @@ public class SquarePanel extends JPanel {
         imageLabel.setIcon(new ImageIcon(pieceImage[color][type]));
     }
     public int getColor(){
-        System.out.println("ola cor");
         return color;
     }
     public int getType(){
-        System.out.println("ola tipo");
         return type;
     }
 

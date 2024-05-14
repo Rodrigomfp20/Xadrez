@@ -42,16 +42,4 @@ public class TabelaGUI extends JPanel{
         add(chessPanel,BorderLayout.CENTER);
        
     }
-
-    static public void main(String[] args) {
-
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                ChessGUI mainFrame = new ChessGUI();
-                mainFrame.setVisible(true);
-
-            }
-        });
-
-    }
 }

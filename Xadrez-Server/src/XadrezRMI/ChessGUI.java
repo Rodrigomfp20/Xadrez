@@ -55,16 +55,9 @@ public class ChessGUI extends JPanel {
         board[0][4].setPiece(board[x][y].getColor(),board[x][y].getType());
         
     }
-
-    static public void main(String[] args) {
-
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                ChessGUI mainFrame = new ChessGUI();
-                mainFrame.setVisible(true);
-
-            }
-        });
-
+    
+    public void setboard(SquarePanel[][] board){
+        this.board = board;
     }
+
 }

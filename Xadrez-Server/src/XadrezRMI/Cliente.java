@@ -15,24 +15,28 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCliente {
     private InterfaceCliente refCliente;
     private String nomeUtilizador;
     private int tipo; // 1 - Jogador 1 | 2 - Jogador 2 | 3 - Observador 
-    private static IniciarJogador Jogo;
+    private static Mesa Jogo;
+
 
     
-    Cliente(String nomeUtilizador) throws RemoteException{
+    Cliente(String nomeUtilizador,InterfaceJogo refServidor) throws RemoteException{
         super();
         this.nomeUtilizador = nomeUtilizador;
+        Jogo = new Mesa(refServidor);
+        Jogo.setVisible(true);
     }
+    
     Cliente(InterfaceCliente refCliente,int tipo,String nomeUtilizador) throws RemoteException{
         super();
         this.refCliente = refCliente;
         this.tipo = tipo;
         this.nomeUtilizador = nomeUtilizador;
     }
-
     @Override
     public void setTipo(int tipo)throws RemoteException {
         this.tipo = tipo;
     }
+    
 
     @Override
     public void notificar(String mensagem) throws RemoteException {
@@ -40,7 +44,13 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCliente {
     }
     @Override
     public void alteranome(int player,String nome) throws RemoteException {
-        Jogo.alteraNome(player,nome);
+        if(player == 1){
+            Jogo.setNome1(nome);
+        }
+        else{
+            Jogo.setNome2(nome);
+
+        }
     }
     
     @Override
@@ -56,14 +66,15 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCliente {
     public InterfaceCliente getReferencia() throws RemoteException{
         return refCliente;
     }
-    public static void main(String[] args) {
-        Jogo = new IniciarJogador();
-        Jogo.setVisible(true);
-    }
-        @Override
+
+    @Override
     public void adicionaObservador(String nome) throws RemoteException {
-        Jogo.adicionaEspetador(nome);
+        Jogo.addObservador(nome);
     }
-    public void movePecas()
+    @Override
+    public void movePecas(int inicialX,int inicialY,int finalX,int finalY,int tipo,int cor) throws RemoteException{
+        System.out.println("Peca movida");
+        Jogo.setPecas(inicialX,inicialY,finalX,finalY,tipo,cor);
+    }
     
 }

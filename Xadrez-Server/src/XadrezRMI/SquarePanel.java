@@ -3,15 +3,18 @@ package XadrezRMI;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.Serializable;
 import java.net.URL;
 import javax.swing.*;
 
-public class SquarePanel extends JPanel {
+public class SquarePanel extends JPanel implements Serializable {
 
     private int row, column, color, type;
+    private static int tipoAtual, corAtual;
     private ChessGUI cg;
     private TabelaGUI tg;
     private JLabel imageLabel;
+    private static int selectedRow,selectedCollumn;
 
     private static Image pieceImage[][] = new Image[2][6];
     private static String imageFilename[][] = {
@@ -28,6 +31,8 @@ public class SquarePanel extends JPanel {
         row = x;
         column = y;
         cg = c;
+        type = -1;
+        tipoAtual = -1;
         setPreferredSize(new Dimension(42, 42));
         imageLabel = new JLabel();
         imageLabel.setPreferredSize(new Dimension(32, 32));
@@ -40,6 +45,8 @@ public class SquarePanel extends JPanel {
         row = x;
         column = y;
         tg = g;
+        type = -1;
+        tipoAtual = -1;
         setPreferredSize(new Dimension(42, 42));
         imageLabel = new JLabel();
         imageLabel.setPreferredSize(new Dimension(32, 32));
@@ -79,8 +86,15 @@ public class SquarePanel extends JPanel {
     public int getType(){
         return type;
     }
+    public int getSelectedX(){
+        return selectedRow;
+    }
+    public int getSelectedY(){
+        return selectedCollumn;
+    }
 
     public void removePiece() {
+        type= -1;
         imageLabel.setIcon(null);
     }
 
@@ -98,6 +112,20 @@ public class SquarePanel extends JPanel {
 
         public void mousePressed(MouseEvent e) {
             cg.selected(row, column);
+            if(type != -1){
+                selectedRow = row;
+                selectedCollumn = column;
+                tipoAtual = type;
+                corAtual = color;
+                System.out.println(type);
+            }
+            else{
+                if(tipoAtual != -1 ){
+                    cg.moverPeca(selectedRow,selectedCollumn,row,column,tipoAtual, corAtual);
+                    tipoAtual = -1;
+                    corAtual = 0;
+                }
+            }
             setBorder(BorderFactory.createLineBorder(Color.RED, 2));
         }
 

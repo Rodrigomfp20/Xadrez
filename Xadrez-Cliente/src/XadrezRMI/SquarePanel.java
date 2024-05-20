@@ -3,17 +3,18 @@ package XadrezRMI;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.Serializable;
 import java.net.URL;
 import javax.swing.*;
 
-public class SquarePanel extends JPanel {
+public class SquarePanel extends JPanel implements Serializable {
 
     private int row, column, color, type;
     private static int tipoAtual, corAtual;
     private ChessGUI cg;
     private TabelaGUI tg;
     private JLabel imageLabel;
-    private boolean selected;
+    private static int selectedRow,selectedCollumn;
 
     private static Image pieceImage[][] = new Image[2][6];
     private static String imageFilename[][] = {
@@ -85,8 +86,11 @@ public class SquarePanel extends JPanel {
     public int getType(){
         return type;
     }
-    public boolean getSelected(){
-        return selected;
+    public int getSelectedX(){
+        return selectedRow;
+    }
+    public int getSelectedY(){
+        return selectedCollumn;
     }
 
     public void removePiece() {
@@ -109,14 +113,17 @@ public class SquarePanel extends JPanel {
         public void mousePressed(MouseEvent e) {
             cg.selected(row, column);
             if(type != -1){
-                selected = true;
+                selectedRow = row;
+                selectedCollumn = column;
                 tipoAtual = type;
                 corAtual = color;
                 System.out.println(type);
             }
             else{
                 if(tipoAtual != -1 ){
-                    cg.moverPeca(row,column,tipoAtual, corAtual);
+                    cg.moverPeca(selectedRow,selectedCollumn,row,column,tipoAtual, corAtual);
+                    tipoAtual = -1;
+                    corAtual = 0;
                 }
             }
             setBorder(BorderFactory.createLineBorder(Color.RED, 2));

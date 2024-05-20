@@ -18,7 +18,8 @@ public interface InterfaceCliente extends Remote {
     void adicionaObservador(String nome) throws RemoteException;
     int getTipo() throws RemoteException;
     void setTipo(int tipo) throws RemoteException;
-    InterfaceCliente getReferencia()throws RemoteException;
-    String getNomeUtilizador()throws RemoteException;
+    InterfaceCliente getReferencia() throws RemoteException;
+    String getNomeUtilizador() throws RemoteException;
+    void movePecas(int inicialX,int inicialY,int finalX,int finalY,int tipo,int cor) throws RemoteException;
 
 }

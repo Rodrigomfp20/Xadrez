@@ -15,8 +15,10 @@ import java.rmi.RemoteException;
  * @author raulm
  */
 public interface InterfaceJogo extends Remote {
-    public void ola() throws RemoteException;
-    
+
     public void registrarCliente(InterfaceCliente cliente) throws RemoteException;
+    
+    public void moverPecaServidor(int inicialX,int inicialY,int finalX,int finalY,int tipo,int cor) throws RemoteException;
+
 
 }

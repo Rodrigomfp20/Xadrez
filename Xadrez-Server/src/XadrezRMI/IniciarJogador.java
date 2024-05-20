@@ -119,11 +119,8 @@ public class IniciarJogador extends javax.swing.JFrame {
             objRemoto = (InterfaceJogo) reg.lookup("Xadrez");
             
             JOptionPane.showMessageDialog(this, "Conectado com sucesso","Sucesso",JOptionPane.INFORMATION_MESSAGE);
-            mesa = new Mesa();
-            //mesa.alteraChessBoard();
-            mesa.setVisible(true);
             this.setVisible(false);
-            cliente = new Cliente(nome);
+            cliente = new Cliente(nome,objRemoto);
             objRemoto.registrarCliente(cliente);
            
         } catch (UnknownHostException ex) {

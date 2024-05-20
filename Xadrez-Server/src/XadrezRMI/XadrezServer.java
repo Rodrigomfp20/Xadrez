@@ -24,6 +24,7 @@ public class XadrezServer extends UnicastRemoteObject implements InterfaceJogo {
     XadrezServer() throws RemoteException {
         super();
         clientes = new ArrayList();
+        mesa = new Mesa();
     }
 
     /**
@@ -38,8 +39,10 @@ public class XadrezServer extends UnicastRemoteObject implements InterfaceJogo {
             XadrezServer serv = new XadrezServer();
             reg.rebind("Xadrez", serv);
             System.out.println("Servidor Iniciado");
+            
+            mesa.setVisible(true);
         } catch (Exception ex) {
-            System.out.println("Ocorreu um erro ao tentar aceder ao RMI Registry.");
+            System.out.println(ex);
         }
         // TODO code application logic here
     }
@@ -91,11 +94,13 @@ public class XadrezServer extends UnicastRemoteObject implements InterfaceJogo {
             System.out.println("Nome: " + clientes.get(i).getNomeUtilizador() + " | Tipo: " + clientes.get(i).getTipo());
         }
         System.out.println("Cliente registrado: " + cliente);
-        cliente.notificar("jogo inicio");
+        cliente.notificar("as");
     }
-    public void moverPecaServidor(InterfaceCliente cliente,ChessGUI tabuleiro, TabelaGUI[] pecasForaBranco, TabelaGUI pecasForaPreto) throws RemoteException{
+    public void moverPecaServidor(int inicialX,int inicialY,int finalX,int finalY,int tipo,int cor) throws RemoteException{
         for (int i = 0; i < clientes.size(); i++) {
-            clientes.get(i).getReferencia().movePecas();
+            System.out.println("Mover");
+            mesa.setPecas(inicialX, inicialY, finalX, finalY, tipo, cor);
+            clientes.get(i).getReferencia().movePecas(inicialX,inicialY,finalX,finalY,tipo,cor);
         }
         
     }

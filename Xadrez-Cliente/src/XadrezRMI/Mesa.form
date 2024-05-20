@@ -147,7 +147,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ChessGUI()"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ChessGUI(this)"/>
         <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="*/"/>
         <AuxValue name="JavaCodeGenerator_DeclarationPre" type="java.lang.String" value="private ChessGUI chessBoard;/*"/>
       </AuxValues>
@@ -261,7 +261,7 @@
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new TabelaGUI()"/>
-        <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="*/&#xa;private TabelaBUI pecasPretas;"/>
+        <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="*/&#xa;private TabelaGUI pecasPretas;"/>
         <AuxValue name="JavaCodeGenerator_DeclarationPre" type="java.lang.String" value="/*"/>
       </AuxValues>
 

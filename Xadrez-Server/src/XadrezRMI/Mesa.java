@@ -15,14 +15,15 @@ import javax.swing.JFrame;
  * @author raulm
  */
 public class Mesa extends javax.swing.JFrame {
+    private InterfaceJogo refServidor;
     
-    private SquarePanel[][] pecasBrancas = new SquarePanel[2][8];
-    private SquarePanel[][] pecasPretas = new SquarePanel[2][8];
-    
-
     /**
      * Creates new form Mesa
      */
+    public Mesa(InterfaceJogo refServidor) {
+        this.refServidor = refServidor;
+        initComponents();
+    }
     public Mesa() {
         initComponents();
     }
@@ -38,7 +39,7 @@ public class Mesa extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        chessBoard = new ChessGUI();
+        chessBoard = new ChessGUI(this);
         nome1 = new javax.swing.JLabel();
         nome2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -54,8 +55,8 @@ public class Mesa extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jPanel1 = new TabelaGUI();
-        jPanel2 = new TabelaGUI();
+        pecasPretas = new TabelaGUI();
+        pecasBrancas = new TabelaGUI();
         jScrollPane4 = new javax.swing.JScrollPane();
         listaObservadores = new javax.swing.JTextArea();
 
@@ -115,34 +116,34 @@ public class Mesa extends javax.swing.JFrame {
 
         jButton5.setLabel("Sair do Jogo");
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(100, 100));
+        pecasPretas.setPreferredSize(new java.awt.Dimension(100, 100));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout pecasPretasLayout = new javax.swing.GroupLayout(pecasPretas);
+        pecasPretas.setLayout(pecasPretasLayout);
+        pecasPretasLayout.setHorizontalGroup(
+            pecasPretasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pecasPretasLayout.setVerticalGroup(
+            pecasPretasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        jPanel2.setPreferredSize(new java.awt.Dimension(100, 100));
+        pecasBrancas.setPreferredSize(new java.awt.Dimension(100, 100));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout pecasBrancasLayout = new javax.swing.GroupLayout(pecasBrancas);
+        pecasBrancas.setLayout(pecasBrancasLayout);
+        pecasBrancasLayout.setHorizontalGroup(
+            pecasBrancasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pecasBrancasLayout.setVerticalGroup(
+            pecasBrancasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
         listaObservadores.setEditable(false);
-        listaObservadores.setColumns(20);
+        listaObservadores.setColumns(12);
         listaObservadores.setRows(5);
         listaObservadores.setAutoscrolls(false);
         listaObservadores.setFocusable(false);
@@ -167,8 +168,8 @@ public class Mesa extends javax.swing.JFrame {
                             .addComponent(nome1)
                             .addComponent(nome2, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(chessBoard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))
+                            .addComponent(pecasPretas, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                            .addComponent(pecasBrancas, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))
                         .addGap(125, 125, 125)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -181,7 +182,7 @@ public class Mesa extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel3)
                                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                                    .addComponent(jScrollPane4))
                                 .addGap(48, 48, 48)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -192,7 +193,7 @@ public class Mesa extends javax.swing.JFrame {
                                             .addComponent(jLabel4)
                                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 50, Short.MAX_VALUE))))))))
+                                        .addGap(0, 0, Short.MAX_VALUE))))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,9 +223,9 @@ public class Mesa extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pecasPretas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(pecasBrancas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
@@ -238,6 +239,7 @@ public class Mesa extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        chessBoard.organizaPecas();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -247,9 +249,6 @@ public class Mesa extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-public void alteraChessBoard(SquarePanel[][] board){
-    chessBoard.setboard(board);
-}
 public void setNome1(String nome){
     this.nome1.setText(nome);
 }
@@ -258,7 +257,23 @@ public void setNome2(String nome){
 }
 public void addObservador(String nome){
     this.listaObservadores.append(nome + "\n");
+}
 
+public void setPecas(int inicialX,int inicialY,int finalX,int finalY,int tipo,int cor){
+    chessBoard.moverPecaLocal(inicialX,inicialY,finalX, finalY, tipo, cor);
+}
+public InterfaceJogo getRefServidor(){
+    return this.refServidor;
+}
+public TabelaGUI getPecasBrancas(){
+    return this.pecasBrancas;
+    
+}
+public TabelaGUI getPecasPretas(){
+    return this.pecasPretas;
+}
+public SquarePanel[][] getPiecesPosition(){
+    return chessBoard.getBoard();
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -273,8 +288,6 @@ public void addObservador(String nome){
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -284,5 +297,13 @@ public void addObservador(String nome){
     private javax.swing.JTextArea listaObservadores;
     private javax.swing.JLabel nome1;
     private javax.swing.JLabel nome2;
+    /*
+    private javax.swing.JPanel pecasBrancas;
+    */
+    private TabelaGUI pecasBrancas;
+    /*
+    private javax.swing.JPanel pecasPretas;
+    */
+    private TabelaGUI pecasPretas;
     // End of variables declaration//GEN-END:variables
 }

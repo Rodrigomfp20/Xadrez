@@ -120,7 +120,7 @@ public class IniciarJogador extends javax.swing.JFrame {
             
             JOptionPane.showMessageDialog(this, "Conectado com sucesso","Sucesso",JOptionPane.INFORMATION_MESSAGE);
             this.setVisible(false);
-            cliente = new Cliente(nome);
+            cliente = new Cliente(nome,objRemoto);
             objRemoto.registrarCliente(cliente);
            
         } catch (UnknownHostException ex) {

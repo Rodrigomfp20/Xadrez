@@ -15,10 +15,15 @@ import javax.swing.JFrame;
  * @author raulm
  */
 public class Mesa extends javax.swing.JFrame {
+    private InterfaceJogo refServidor;
     
     /**
      * Creates new form Mesa
      */
+    public Mesa(InterfaceJogo refServidor) {
+        this.refServidor = refServidor;
+        initComponents();
+    }
     public Mesa() {
         initComponents();
     }
@@ -34,7 +39,7 @@ public class Mesa extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        chessBoard = new ChessGUI();
+        chessBoard = new ChessGUI(this);
         nome1 = new javax.swing.JLabel();
         nome2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -244,9 +249,6 @@ public class Mesa extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-public void alteraChessBoard(SquarePanel[][] board){
-    chessBoard.setboard(board);
-}
 public void setNome1(String nome){
     this.nome1.setText(nome);
 }
@@ -257,10 +259,21 @@ public void addObservador(String nome){
     this.listaObservadores.append(nome + "\n");
 }
 
-public void setPecas(ChessGUI tabuleiro, TabelaGUI pecasForaBranco, TabelaGUI pecasForaPreto){
-    chessBoard = tabuleiro;
-    pecasPretas = pecasForaPreto;
-    pecasBrancas = pecasForaBranco;
+public void setPecas(int inicialX,int inicialY,int finalX,int finalY,int tipo,int cor){
+    chessBoard.moverPecaLocal(inicialX,inicialY,finalX, finalY, tipo, cor);
+}
+public InterfaceJogo getRefServidor(){
+    return this.refServidor;
+}
+public TabelaGUI getPecasBrancas(){
+    return this.pecasBrancas;
+    
+}
+public TabelaGUI getPecasPretas(){
+    return this.pecasPretas;
+}
+public SquarePanel[][] getPiecesPosition(){
+    return chessBoard.getBoard();
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -291,6 +304,6 @@ public void setPecas(ChessGUI tabuleiro, TabelaGUI pecasForaBranco, TabelaGUI pe
     /*
     private javax.swing.JPanel pecasPretas;
     */
-    private TabelaBUI pecasPretas;
+    private TabelaGUI pecasPretas;
     // End of variables declaration//GEN-END:variables
 }

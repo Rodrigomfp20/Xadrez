@@ -4,6 +4,7 @@ package XadrezRMI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.io.Serializable;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -16,7 +17,7 @@ import javax.swing.SwingUtilities;
  *
  * @author rodrigomfp20011
  */
-public class TabelaGUI extends JPanel{
+public class TabelaGUI extends JPanel implements Serializable{
     
     private SquarePanel[][] board = new SquarePanel[2][8];
     
@@ -41,17 +42,5 @@ public class TabelaGUI extends JPanel{
         }
         add(chessPanel,BorderLayout.CENTER);
        
-    }
-
-    static public void main(String[] args) {
-
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                ChessGUI mainFrame = new ChessGUI();
-                mainFrame.setVisible(true);
-
-            }
-        });
-
     }
 }

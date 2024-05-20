@@ -19,10 +19,10 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCliente {
 
 
     
-    Cliente(String nomeUtilizador) throws RemoteException{
+    Cliente(String nomeUtilizador,InterfaceJogo refServidor) throws RemoteException{
         super();
         this.nomeUtilizador = nomeUtilizador;
-        Jogo = new Mesa();
+        Jogo = new Mesa(refServidor);
         Jogo.setVisible(true);
     }
     
@@ -70,6 +70,10 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCliente {
     @Override
     public void adicionaObservador(String nome) throws RemoteException {
         Jogo.addObservador(nome);
+    }
+    @Override
+    public void movePecas(int inicialX,int inicialY,int finalX,int finalY,int tipo,int cor) throws RemoteException{
+        Jogo.setPecas(inicialX,inicialY,finalX,finalY,tipo,cor);
     }
     
 }

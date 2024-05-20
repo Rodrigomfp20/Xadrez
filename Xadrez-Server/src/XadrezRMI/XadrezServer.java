@@ -94,12 +94,15 @@ public class XadrezServer extends UnicastRemoteObject implements InterfaceJogo {
             System.out.println("Nome: " + clientes.get(i).getNomeUtilizador() + " | Tipo: " + clientes.get(i).getTipo());
         }
         System.out.println("Cliente registrado: " + cliente);
-        cliente.notificar("as");
+        ArrayList<Peca> pecas = mesa.getPiecesPosition();
+        
+        cliente.atualizarTabuleiro(pecas);
     }
+    @Override
     public void moverPecaServidor(int inicialX,int inicialY,int finalX,int finalY,int tipo,int cor) throws RemoteException{
+        mesa.setPecas(inicialX, inicialY, finalX, finalY, tipo, cor);
         for (int i = 0; i < clientes.size(); i++) {
             System.out.println("Mover");
-            mesa.setPecas(inicialX, inicialY, finalX, finalY, tipo, cor);
             clientes.get(i).getReferencia().movePecas(inicialX,inicialY,finalX,finalY,tipo,cor);
         }
         
@@ -129,8 +132,12 @@ public class XadrezServer extends UnicastRemoteObject implements InterfaceJogo {
     }
 
     @Override
-    public void ola() throws RemoteException {
-        System.out.println("Ola do cliente");
+    public void organizaPecas() throws RemoteException {
+        mesa.organizaPecas();
+        ArrayList<Peca> pecas = mesa.getPiecesPosition();
+        for (int i = 0; i < clientes.size(); i++) {
+            clientes.get(i).getReferencia().atualizarTabuleiro(pecas);
+        }
     }
 
 }

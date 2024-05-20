@@ -23,7 +23,7 @@ public class TabelaGUI extends JPanel implements Serializable {
 
     private JPanel mesa = new JPanel();
 
-    public TabelaGUI() {
+    public TabelaGUI(int cor) {
 
         SquarePanel.loadPieceImages();
         chessPanel.setSize(380, 95);
@@ -31,15 +31,18 @@ public class TabelaGUI extends JPanel implements Serializable {
 
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 8; j++) {
-                SquarePanel sqPanel = new SquarePanel(i, j, this);
+                SquarePanel sqPanel = new SquarePanel(i, j, this,cor);
                 board[i][j] = sqPanel;
                 chessPanel.add(sqPanel);
 
             }
         }
         add(chessPanel, BorderLayout.CENTER);
-        organizaPecas(0);
-
+    }
+    public void selected(int x, int y,int cor) {
+        String[] letras =  {"a","b","c","d","e","f","g","h"};
+        System.out.println("Posicao -> " + letras[y] + (8-x));
+        System.out.println(cor);
     }
 
     public void organizaPecas(int cor) {
@@ -63,5 +66,8 @@ public class TabelaGUI extends JPanel implements Serializable {
                 board[i][j].removePiece();
             }
         }
+    }
+    public void removerPeca(int row, int column){
+        board[row][column].setPiece(0, -1);
     }
 }

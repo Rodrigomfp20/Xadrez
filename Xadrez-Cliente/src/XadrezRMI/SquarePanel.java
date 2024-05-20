@@ -9,10 +9,12 @@ import javax.swing.*;
 
 public class SquarePanel extends JPanel implements Serializable {
 
-    private int row, column, color, type;
+    private int row, column;
+    private Peca peca;
     private static int tipoAtual, corAtual;
     private ChessGUI cg;
     private TabelaGUI tg;
+    private int cor;
     private JLabel imageLabel;
     private static int selectedRow,selectedCollumn;
 
@@ -31,7 +33,7 @@ public class SquarePanel extends JPanel implements Serializable {
         row = x;
         column = y;
         cg = c;
-        type = -1;
+        peca = new Peca(0);
         tipoAtual = -1;
         setPreferredSize(new Dimension(42, 42));
         imageLabel = new JLabel();
@@ -41,11 +43,12 @@ public class SquarePanel extends JPanel implements Serializable {
         addMouseListener(new SquareMouseListener());
     }
     
-    public SquarePanel(int x, int y, TabelaGUI g) {
+    public SquarePanel(int x, int y, TabelaGUI g,int cor) {
         row = x;
         column = y;
         tg = g;
-        type = -1;
+        this.cor = cor;
+        peca = new Peca(0);
         tipoAtual = -1;
         setPreferredSize(new Dimension(42, 42));
         imageLabel = new JLabel();
@@ -68,6 +71,7 @@ public class SquarePanel extends JPanel implements Serializable {
     }
 
     public void setBackColor(int color) {
+        peca.setColor(color);
         if (color == 0) {
             setBackground(Color.white);
         } else {
@@ -76,15 +80,20 @@ public class SquarePanel extends JPanel implements Serializable {
     }
 
     public void setPiece(int color, int type) {
-        this.color = color;
-        this.type = type;
-        imageLabel.setIcon(new ImageIcon(pieceImage[color][type]));
+        peca.setColor(color);
+        peca.setType(type);
+        if(type != -1){
+            imageLabel.setIcon(new ImageIcon(pieceImage[color][type]));
+        }
+        else{
+            imageLabel.setIcon(null);
+        }
     }
     public int getColor(){
-        return color;
+        return peca.getColor();
     }
     public int getType(){
-        return type;
+        return peca.getType();
     }
     public int getSelectedX(){
         return selectedRow;
@@ -94,8 +103,11 @@ public class SquarePanel extends JPanel implements Serializable {
     }
 
     public void removePiece() {
-        type= -1;
+        peca.setType(-1);
         imageLabel.setIcon(null);
+    }
+    public Peca getPeca(){
+        return peca;
     }
 
     class SquareMouseListener extends MouseAdapter {
@@ -111,22 +123,42 @@ public class SquarePanel extends JPanel implements Serializable {
         }
 
         public void mousePressed(MouseEvent e) {
-            cg.selected(row, column);
-            if(type != -1){
-                selectedRow = row;
-                selectedCollumn = column;
-                tipoAtual = type;
-                corAtual = color;
-                System.out.println(type);
+            if(cg != null){
+                cg.selected(row, column);
+                if(peca.getType() != -1){
+                    selectedRow = row;
+                    selectedCollumn = column;
+                    tipoAtual = peca.getType();
+                    corAtual = peca.getColor();
+                    System.out.println(peca.getType());
+                }
+                else{
+                    if(tipoAtual != -1 ){
+                        cg.moverPeca(selectedRow,selectedCollumn,row,column,tipoAtual, corAtual);
+                        tipoAtual = -1;
+                        corAtual = 0;
+                    }
+                }
+                setBorder(BorderFactory.createLineBorder(Color.RED, 2));
             }
-            else{
-                if(tipoAtual != -1 ){
-                    cg.moverPeca(selectedRow,selectedCollumn,row,column,tipoAtual, corAtual);
-                    tipoAtual = -1;
-                    corAtual = 0;
+                        else{
+                tg.selected(row, column,cor);
+                if(peca.getType() != -1){
+                    selectedRow = row;
+                    selectedCollumn = column;
+                    tipoAtual = peca.getType();
+                    corAtual = peca.getColor();
+                    System.out.println(peca.getType());
+                }
+                else{
+                    if(tipoAtual != -1 ){
+                        cg.adicionarPeca(selectedRow,selectedCollumn,row, column, tipoAtual, corAtual);
+                        tipoAtual = -1;
+                        corAtual = 0;
+                    }
                 }
             }
-            setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+
         }
 
     }

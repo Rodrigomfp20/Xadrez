@@ -3,6 +3,7 @@ package XadrezRMI;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 
 
@@ -55,8 +56,8 @@ public class Mesa extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        pecasPretas = new TabelaGUI();
-        pecasBrancas = new TabelaGUI();
+        pecasPretas = new TabelaGUI(0);
+        pecasBrancas = new TabelaGUI(1);
         jScrollPane4 = new javax.swing.JScrollPane();
         listaObservadores = new javax.swing.JTextArea();
 
@@ -267,13 +268,34 @@ public InterfaceJogo getRefServidor(){
 }
 public TabelaGUI getPecasBrancas(){
     return this.pecasBrancas;
+}
+public void removePecaFora(int cor,int row, int column){
+    if(cor == 1){
+        pecasBrancas.removerPeca(row, column);
+    }
+    else{
+        pecasPretas.removerPeca(row, column);
+    }
     
 }
 public TabelaGUI getPecasPretas(){
     return this.pecasPretas;
 }
-public SquarePanel[][] getPiecesPosition(){
+public ArrayList<Peca> getPiecesPosition(){
     return chessBoard.getBoard();
+}
+public void setPiecesPosition(ArrayList<Peca> pecas){
+    chessBoard.setBoard(pecas);
+}
+public void organizaPecas(){
+    chessBoard.organizaPecas();
+    pecasBrancas.limpaTabuleiro();
+    pecasPretas.limpaTabuleiro();
+};
+public void limpaTabuleiro(){
+    chessBoard.limpaTabuleiro();
+    pecasBrancas.organizaPecas(1);
+    pecasPretas.organizaPecas(0);
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

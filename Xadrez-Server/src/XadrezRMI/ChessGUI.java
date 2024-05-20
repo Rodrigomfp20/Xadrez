@@ -6,6 +6,7 @@ package XadrezRMI;
 import java.awt.*;
 import java.io.Serializable;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -44,8 +45,14 @@ public class ChessGUI extends JPanel implements Serializable {
         //board[7][3].removePiece();
         //board[0][0].setBackColor(1);
     }
-    public SquarePanel[][] getBoard(){
-        return board;
+    public ArrayList<Peca> getBoard(){
+        ArrayList<Peca> pecas = new ArrayList();
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                pecas.add(board[i][j].getPeca());
+            }
+        }
+        return pecas;
     }
 
     public void selected(int x, int y) {
@@ -61,6 +68,9 @@ public class ChessGUI extends JPanel implements Serializable {
         } catch (RemoteException ex) {
             Logger.getLogger(ChessGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    public void adicionarPeca(int inicialX, int inicialY,int finalX, int finalY, int tipo , int cor){
+            mesaJogo.removePecaFora(cor,inicialX,inicialY);
     }
     
     public void moverPecaLocal(int inicialX, int inicialY,int finalX, int finalY, int tipo , int cor){
@@ -107,8 +117,12 @@ public class ChessGUI extends JPanel implements Serializable {
         }
     }
     
-    public void setboard(SquarePanel[][] board){
-        this.board = board;
+    public void setBoard(ArrayList<Peca> pecas){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                this.board[i][j].setPiece(pecas.get(i*8+j).getColor(),pecas.get(i*8+j).getType());
+            }
+        }
     }
 
 }

@@ -19,6 +19,8 @@ public interface InterfaceJogo extends Remote {
     public void registrarCliente(InterfaceCliente cliente) throws RemoteException;
     
     public void moverPecaServidor(int inicialX,int inicialY,int finalX,int finalY,int tipo,int cor) throws RemoteException;
+    
+    public void organizaPecas() throws RemoteException;
 
 
 }

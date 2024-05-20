@@ -5,6 +5,7 @@
 package XadrezRMI;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.*;
+import java.util.ArrayList;
 
 
 /**
@@ -37,11 +38,6 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCliente {
         this.tipo = tipo;
     }
     
-
-    @Override
-    public void notificar(String mensagem) throws RemoteException {
-        System.out.println("Notificação recebida: " + mensagem);
-    }
     @Override
     public void alteranome(int player,String nome) throws RemoteException {
         if(player == 1){
@@ -74,6 +70,11 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCliente {
     @Override
     public void movePecas(int inicialX,int inicialY,int finalX,int finalY,int tipo,int cor) throws RemoteException{
         Jogo.setPecas(inicialX,inicialY,finalX,finalY,tipo,cor);
+    }
+
+    @Override
+    public void atualizarTabuleiro(ArrayList<Peca> pecas) throws RemoteException {
+        Jogo.setPiecesPosition(pecas);
     }
     
 }

@@ -51,8 +51,10 @@ public class ChessGUI extends JPanel {
     }
 
     public void selected(int x, int y) {
-        System.out.printf("mouse pressed at: %d - %d\n", x, y);
-        board[0][4].setPiece(board[x][y].getColor(),board[x][y].getType());
+        String[] letras =  {"a","b","c","d","e","f","g","h"};
+        System.out.println("Posicao -> " + letras[y]+x);
+        
+        //board[0][4].setPiece(board[x][y].getColor(),board[x][y].getType());
         
     }
     

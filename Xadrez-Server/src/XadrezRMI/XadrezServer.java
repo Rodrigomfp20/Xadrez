@@ -93,6 +93,13 @@ public class XadrezServer extends UnicastRemoteObject implements InterfaceJogo {
         System.out.println("Cliente registrado: " + cliente);
         cliente.notificar("jogo inicio");
     }
+    public void moverPecaServidor(InterfaceCliente cliente,ChessGUI tabuleiro, TabelaGUI[] pecasForaBranco, TabelaGUI pecasForaPreto) throws RemoteException{
+        for (int i = 0; i < clientes.size(); i++) {
+            clientes.get(i).getReferencia().movePecas();
+        }
+        
+    }
+
 
     private static String lerDados(String aMensagem) {
         System.out.println(aMensagem);

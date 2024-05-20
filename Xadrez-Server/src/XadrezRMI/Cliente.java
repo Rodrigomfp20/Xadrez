@@ -64,5 +64,6 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCliente {
     public void adicionaObservador(String nome) throws RemoteException {
         Jogo.adicionaEspetador(nome);
     }
+    public void movePecas()
     
 }

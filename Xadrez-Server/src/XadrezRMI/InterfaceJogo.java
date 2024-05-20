@@ -15,4 +15,5 @@ public interface InterfaceJogo extends Remote {
     
     public void ola() throws RemoteException;
     public void registrarCliente(InterfaceCliente cliente) throws RemoteException;
+    public void moverPecaServidor(InterfaceCliente cliente,ChessGUI tabuleiro, TabelaGUI[] pecasForaBranco, TabelaGUI pecasForaPreto) throws RemoteException;
 }

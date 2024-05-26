@@ -2,7 +2,10 @@ package XadrezRMI;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -19,12 +22,14 @@ import javax.swing.table.TableModel;
 public class Mesa extends javax.swing.JFrame {
 
     private InterfaceJogo refServidor;
+    private Cliente cliente;
 
     /**
      * Creates new form Mesa
      */
-    public Mesa(InterfaceJogo refServidor) {
+    public Mesa(InterfaceJogo refServidor, Cliente cliente) {
         this.refServidor = refServidor;
+        this.cliente = cliente;
         initComponents();
     }
 
@@ -47,19 +52,16 @@ public class Mesa extends javax.swing.JFrame {
         nome1 = new javax.swing.JLabel();
         nome2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        chat = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        mensagem = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        arrumarPecas = new javax.swing.JButton();
+        removerPecas = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        pecasPretas = new TabelaGUI(0,this);
-        pecasBrancas = new TabelaGUI(1,this);
+        pecasPretas = new TabelaGUI(1,this);
+        pecasBrancas = new TabelaGUI(0,this);
         jScrollPane5 = new javax.swing.JScrollPane();
         observadores = new javax.swing.JTable();
 
@@ -78,6 +80,7 @@ public class Mesa extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1140, 700));
+        setResizable(false);
         setSize(new java.awt.Dimension(1140, 700));
 
         chessBoard.setBackground(new java.awt.Color(255, 255, 30));
@@ -94,13 +97,24 @@ public class Mesa extends javax.swing.JFrame {
             .addGap(0, 380, Short.MAX_VALUE)
         );
 
-        nome1.setText("posicao1");
+        nome1.setText("Posicao1");
+        nome1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nome1MouseClicked(evt);
+            }
+        });
 
-        nome2.setText("posicao2");
+        nome2.setText("Posicao2");
+        nome2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nome2MouseClicked(evt);
+            }
+        });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        chat.setColumns(20);
+        chat.setRows(5);
+        chat.setFocusable(false);
+        jScrollPane2.setViewportView(chat);
 
         jLabel4.setText("Chat");
 
@@ -112,28 +126,32 @@ public class Mesa extends javax.swing.JFrame {
         });
 
         jButton2.setLabel("Passar a Observador");
-
-        jLabel5.setText("Log");
-
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane3.setViewportView(jTextArea2);
-
-        jButton3.setLabel("Arrumar Pecas");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
 
-        jButton4.setLabel("Remover Todas as Pecas");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        arrumarPecas.setLabel("Arrumar Pecas");
+        arrumarPecas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                arrumarPecasActionPerformed(evt);
+            }
+        });
+
+        removerPecas.setLabel("Remover Todas as Pecas");
+        removerPecas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removerPecasActionPerformed(evt);
             }
         });
 
         jButton5.setLabel("Sair do Jogo");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         pecasPretas.setPreferredSize(new java.awt.Dimension(100, 100));
 
@@ -141,7 +159,7 @@ public class Mesa extends javax.swing.JFrame {
         pecasPretas.setLayout(pecasPretasLayout);
         pecasPretasLayout.setHorizontalGroup(
             pecasPretasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 380, Short.MAX_VALUE)
         );
         pecasPretasLayout.setVerticalGroup(
             pecasPretasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,7 +172,7 @@ public class Mesa extends javax.swing.JFrame {
         pecasBrancas.setLayout(pecasBrancasLayout);
         pecasBrancasLayout.setHorizontalGroup(
             pecasBrancasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 380, Short.MAX_VALUE)
         );
         pecasBrancasLayout.setVerticalGroup(
             pecasBrancasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,99 +194,175 @@ public class Mesa extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(chessBoard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pecasPretas, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pecasBrancas, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton4)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton5)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(arrumarPecas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(removerPecas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(nome2)
+                        .addGap(21, 21, 21))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(nome1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel4)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(nome1)
-                            .addComponent(nome2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(chessBoard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pecasPretas, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-                            .addComponent(pecasBrancas, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))
-                        .addGap(125, 125, 125)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jScrollPane2)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(167, 167, 167)
-                                        .addComponent(jLabel4))))
-                            .addComponent(jScrollPane3))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(mensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(nome2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(chessBoard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(5, 5, 5)
+                                .addComponent(jScrollPane5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton2))
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane2))
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2))))
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nome1)
-                    .addComponent(jLabel5))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(mensagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton1))
+                                .addGap(11, 11, 11)))
+                        .addGap(75, 75, 75))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addComponent(pecasBrancas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nome2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addComponent(chessBoard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nome1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pecasPretas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addComponent(pecasBrancas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
-                .addGap(121, 121, 121))
+                        .addGap(33, 33, 33)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(arrumarPecas)
+                            .addComponent(removerPecas)
+                            .addComponent(jButton5))
+                        .addGap(15, 15, 15))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void arrumarPecasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arrumarPecasActionPerformed
         // TODO add your handling code here:
         this.organizaPecas();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_arrumarPecasActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        String mensagem = this.mensagem.getText();
+        if (!mensagem.isBlank()) {
+            try {
+                refServidor.enviarMensagem(mensagem,cliente.getNomeUtilizador());
+            } catch (RemoteException ex) {
+                Logger.getLogger(Mesa.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.mensagem.setText("");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void removerPecasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerPecasActionPerformed
         // TODO add your handling code here:
         this.limpaTabuleiro();
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_removerPecasActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        if (this.cliente.getTipo() != 3) {
+            if (this.cliente.getTipo() == 1) {
+                try {
+                    refServidor.atualizaPosicao(1, 3, this.cliente.getNomeUtilizador());
+                } catch (RemoteException ex) {
+                    Logger.getLogger(Mesa.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                try {
+                    refServidor.atualizaPosicao(2, 3, this.cliente.getNomeUtilizador());
+                } catch (RemoteException ex) {
+                    Logger.getLogger(Mesa.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            this.cliente.setTipo(3);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void nome2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nome2MouseClicked
+        // TODO add your handling code here:
+        if (this.nome2.getText().equals("Posicao2")) {
+            if (this.cliente.getTipo() == 3) {
+                try {
+                    refServidor.atualizaPosicao(3, 2, this.cliente.getNomeUtilizador());
+                } catch (RemoteException ex) {
+                    Logger.getLogger(Mesa.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                try {
+                    refServidor.atualizaPosicao(1, 2, this.cliente.getNomeUtilizador());
+                } catch (RemoteException ex) {
+                    Logger.getLogger(Mesa.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            this.cliente.setTipo(2);
+
+        }
+    }//GEN-LAST:event_nome2MouseClicked
+
+    private void nome1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nome1MouseClicked
+        // TODO add your handling code here:
+        if (this.nome1.getText().equals("Posicao1")) {
+            this.nome1.setText(this.cliente.getNomeUtilizador());
+            if (this.cliente.getTipo() == 3) {
+                try {
+                    refServidor.atualizaPosicao(3, 1, this.cliente.getNomeUtilizador());
+                } catch (RemoteException ex) {
+                    Logger.getLogger(Mesa.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                try {
+                    refServidor.atualizaPosicao(2, 1, this.cliente.getNomeUtilizador());
+                } catch (RemoteException ex) {
+                    Logger.getLogger(Mesa.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            this.cliente.setTipo(1);
+
+        }
+    }//GEN-LAST:event_nome1MouseClicked
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        try {
+            // TODO add your handling code here:
+            refServidor.removerCliente(cliente.getNomeUtilizador());
+            System.exit(0);
+        } catch (RemoteException ex) {
+            Logger.getLogger(Mesa.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -284,6 +378,15 @@ public class Mesa extends javax.swing.JFrame {
     public void addObservador(String nome) {
         DefaultTableModel model = (DefaultTableModel) this.observadores.getModel();
         model.addRow(new Object[]{nome});
+    }
+
+    public void removerObservador(String nome) {
+        DefaultTableModel model = (DefaultTableModel) this.observadores.getModel();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            if (String.valueOf(model.getValueAt(i, 0)).equals(nome)) {
+                model.removeRow(i);
+            }
+        }
     }
 
     public void setPecas(int inicialX, int inicialY, int finalX, int finalY, int tipo, int cor) {
@@ -308,9 +411,11 @@ public class Mesa extends javax.swing.JFrame {
     public void removePecaDentro(int row, int column) {
         chessBoard.removerPeca(row, column);
     }
+
     public ArrayList<Peca> getPecasBrancas() {
         return pecasBrancas.getBoard();
     }
+
     public ArrayList<Peca> getPecasPretas() {
         return pecasPretas.getBoard();
     }
@@ -322,8 +427,8 @@ public class Mesa extends javax.swing.JFrame {
     public void setPiecesPosition(ArrayList<Peca> pecas) {
         chessBoard.setBoard(pecas);
     }
-    
-    public void setPecasFora(ArrayList<Peca> pecasBrancas,ArrayList<Peca> pecasPretas){
+
+    public void setPecasFora(ArrayList<Peca> pecasBrancas, ArrayList<Peca> pecasPretas) {
         this.pecasBrancas.setBoard(pecasBrancas);
         this.pecasPretas.setBoard(pecasPretas);
     }
@@ -342,36 +447,40 @@ public void limpaTabuleiro() {
         pecasPretas.organizaPecas(0);
         chessBoard.atualizaServidor();
     }
-public void adicionaPecaFora(int cor, int tipo){
-    if (cor == 1) {
-            pecasBrancas.adicionaPeca(-1,-1,cor,tipo);
+
+    public void adicionaPecaFora(int cor, int tipo) {
+        if (cor == 1) {
+            pecasBrancas.adicionaPeca(-1, -1, cor, tipo);
         } else {
-            pecasPretas.adicionaPeca(-1,-1,cor,tipo);
+            pecasPretas.adicionaPeca(-1, -1, cor, tipo);
         }
-}
-public void setPlayable(boolean estado){
-    this.chessBoard.setPlayable(estado);
-}
+    }
+
+    public void setPlayable(boolean estado) {
+        this.chessBoard.setPlayable(estado);
+        this.arrumarPecas.setEnabled(estado);
+        this.removerPecas.setEnabled(estado);
+    }
+
+    public void escreveMensagem(String mensagem) {
+        this.chat.append(mensagem + "\n");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton arrumarPecas;
+    private javax.swing.JTextArea chat;
     private ChessGUI chessBoard;/*
     private javax.swing.JPanel chessBoard;
     */
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField mensagem;
     private javax.swing.JLabel nome1;
     private javax.swing.JLabel nome2;
     private javax.swing.JTable observadores;
@@ -383,5 +492,6 @@ public void setPlayable(boolean estado){
     private javax.swing.JPanel pecasPretas;
     */
     private TabelaGUI pecasPretas;
+    private javax.swing.JButton removerPecas;
     // End of variables declaration//GEN-END:variables
 }

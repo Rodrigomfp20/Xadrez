@@ -1,6 +1,5 @@
 package XadrezRMI;
 
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.Serializable;
@@ -17,16 +16,18 @@ public class SquarePanel extends JPanel implements Serializable {
     private int cor;
     private static boolean lastTabela;
     private JLabel imageLabel;
-    private static int selectedRow,selectedCollumn;
+    private static int selectedRow, selectedCollumn;
+    private boolean playable;
 
     private static Image pieceImage[][] = new Image[2][6];
     private static String imageFilename[][] = {
         {"wp.gif", "wn.gif", "wb.gif", "wr.gif", "wq.gif", "wk.gif"},
         {"bp.gif", "bn.gif", "bb.gif", "br.gif", "bq.gif", "bk.gif"}};
 
-    public SquarePanel(){
-        
+    public SquarePanel() {
+
     }
+
     //colors: 0 - white; 1 - black;
     //pieces: 0 - pawn(peao); 1 - knight(cavalo); 2 - bishop(bispo)
     //        3 - rook(torre); 4 - queen(rainha); 5 - king(rei)
@@ -39,12 +40,13 @@ public class SquarePanel extends JPanel implements Serializable {
         setPreferredSize(new Dimension(42, 42));
         imageLabel = new JLabel();
         imageLabel.setPreferredSize(new Dimension(32, 32));
+        playable = true;
         add(imageLabel);
         //loadPieceImages();
         addMouseListener(new SquareMouseListener());
     }
-    
-    public SquarePanel(int x, int y, TabelaGUI g,int cor) {
+
+    public SquarePanel(int x, int y, TabelaGUI g, int cor) {
         row = x;
         column = y;
         tg = g;
@@ -54,6 +56,7 @@ public class SquarePanel extends JPanel implements Serializable {
         setPreferredSize(new Dimension(42, 42));
         imageLabel = new JLabel();
         imageLabel.setPreferredSize(new Dimension(32, 32));
+        playable = true;
         add(imageLabel);
         //loadPieceImages();
         addMouseListener(new SquareMouseListener());
@@ -61,12 +64,12 @@ public class SquarePanel extends JPanel implements Serializable {
 
     public static void loadPieceImages() {
         URL iconURL;
-        
+
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 6; j++) {
                 iconURL = ClassLoader.getSystemResource("images/" + imageFilename[i][j]);
                 pieceImage[i][j] = Toolkit.getDefaultToolkit().getImage(iconURL);
-                
+
             }
         }
     }
@@ -79,32 +82,40 @@ public class SquarePanel extends JPanel implements Serializable {
         }
     }
 
+    public void setPlayable(boolean estado) {
+        this.playable = estado;
+    }
+
     public void setPiece(int color, int type) {
         peca.setColor(color);
         peca.setType(type);
-        if(type != -1){
+        if (type != -1) {
             imageLabel.setIcon(new ImageIcon(pieceImage[color][type]));
-        }
-        else{
+        } else {
             imageLabel.setIcon(null);
         }
     }
-    public int getColor(){
+
+    public int getColor() {
         return peca.getColor();
     }
-    public int getType(){
+
+    public int getType() {
         return peca.getType();
     }
-    public boolean verificaPeca(){
-        if(imageLabel == null){
+
+    public boolean verificaPeca() {
+        if (imageLabel == null) {
             return false;
         }
         return true;
     }
-    public int getSelectedX(){
+
+    public int getSelectedX() {
         return selectedRow;
     }
-    public int getSelectedY(){
+
+    public int getSelectedY() {
         return selectedCollumn;
     }
 
@@ -112,7 +123,8 @@ public class SquarePanel extends JPanel implements Serializable {
         peca.setType(-1);
         imageLabel.setIcon(null);
     }
-    public Peca getPeca(){
+
+    public Peca getPeca() {
         return peca;
     }
 
@@ -129,59 +141,56 @@ public class SquarePanel extends JPanel implements Serializable {
         }
 
         public void mousePressed(MouseEvent e) {
-            if(cg != null){
-                cg.selected(row, column);
-                if(peca.getType() != -1){
-                    if(tipoAtual != -1 && corAtual != peca.getColor()) {
-                        int tipoAux= tipoAtual;
-                        tipoAtual = -1;
-                        cg.moverPeca(selectedRow,selectedCollumn,row,column,tipoAux, corAtual);
+            if (playable) {
+                if (cg != null) {
+                    cg.selected(row, column);
+                    if (peca.getType() != -1) {
+                        if (tipoAtual != -1 && corAtual != peca.getColor()) {
+                            int tipoAux = tipoAtual;
+                            tipoAtual = -1;
+                            cg.moverPeca(selectedRow, selectedCollumn, row, column, tipoAux, corAtual);
+                        } else {
+                            selectedRow = row;
+                            selectedCollumn = column;
+                            tipoAtual = peca.getType();
+                            corAtual = peca.getColor();
+                            System.out.println(peca.getType());
+                        }
+                    } else {
+                        if (tipoAtual != -1) {
+                            if (lastTabela) {
+                                cg.adicionarPeca(selectedRow, selectedCollumn, row, column, tipoAtual, corAtual);
+                            } else {
+                                cg.moverPeca(selectedRow, selectedCollumn, row, column, tipoAtual, corAtual);
+                            }
+                            tipoAtual = -1;
+                            corAtual = 0;
+                        }
                     }
-                    else{
+                    lastTabela = false;
+                    setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                } else {
+                    tg.selected(row, column, cor);
+
+                    if (peca.getType() != -1) {
                         selectedRow = row;
                         selectedCollumn = column;
                         tipoAtual = peca.getType();
                         corAtual = peca.getColor();
                         System.out.println(peca.getType());
-                    }
-                }
-                else{
-                    if(tipoAtual != -1 ){
-                        if(lastTabela){
-                            cg.adicionarPeca(selectedRow,selectedCollumn,row, column, tipoAtual, corAtual);
-                        }
-                        else{
-                            cg.moverPeca(selectedRow,selectedCollumn,row,column,tipoAtual, corAtual);
-                        }
-                        tipoAtual = -1;
-                        corAtual = 0;
-                    }
-                }
-                lastTabela = false;
-                setBorder(BorderFactory.createLineBorder(Color.RED, 2));
-            }
-            else{
-                tg.selected(row, column,cor);
-                
-                if(peca.getType() != -1){
-                    selectedRow = row;
-                    selectedCollumn = column;
-                    tipoAtual = peca.getType();
-                    corAtual = peca.getColor();
-                    System.out.println(peca.getType());
-                }
-                else{
-                    if(tipoAtual != -1 ){
-                        if(!lastTabela){
-                            if(cor == corAtual ){
-                                tg.adicionaPeca(selectedRow,selectedCollumn, corAtual,tipoAtual);
+                    } else {
+                        if (tipoAtual != -1) {
+                            if (!lastTabela) {
+                                if (cor == corAtual) {
+                                    tg.adicionaPeca(selectedRow, selectedCollumn, corAtual, tipoAtual);
+                                }
                             }
+                            tipoAtual = -1;
+                            corAtual = 0;
                         }
-                        tipoAtual = -1;
-                        corAtual = 0;
                     }
+                    lastTabela = true;
                 }
-                lastTabela = true;
             }
 
         }

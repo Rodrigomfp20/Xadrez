@@ -17,11 +17,17 @@ import java.util.ArrayList;
  */
 public interface InterfaceJogo extends Remote {
 
-    public boolean registrarCliente(InterfaceCliente cliente) throws RemoteException;
+    public int registrarCliente(InterfaceCliente cliente,String nome) throws RemoteException;
+    
+    public void removerCliente(String nome) throws RemoteException;
     
     public void moverPecaServidor(ArrayList<Peca> pecasTabuleiro,ArrayList<Peca> pecasForaBrancas,ArrayList<Peca> pecasForaPretas) throws RemoteException;
     
     public void organizaPecas() throws RemoteException;
+    
+    public void atualizaPosicao(int posInicial, int posFinal, String nome) throws RemoteException;
+    
+    public void enviarMensagem(String mensagem,String nome)throws RemoteException;
 
 
 }

@@ -23,8 +23,8 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCliente {
     Cliente(String nomeUtilizador,InterfaceJogo refServidor) throws RemoteException{
         super();
         this.nomeUtilizador = nomeUtilizador;
-        Jogo = new Mesa(refServidor);
-        
+        Jogo = new Mesa(refServidor,this);
+        Jogo.setTitle("Xadrez -> " + nomeUtilizador);
         
     }
     
@@ -38,9 +38,18 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCliente {
         Jogo.setVisible(true);
     }
     
-    @Override
-    public void setTipo(int tipo)throws RemoteException {
+    public void setTipo(int tipo){
         this.tipo = tipo;
+        if(Jogo != null){
+            if(tipo == 3){
+                Jogo.setPlayable(false);
+            
+            }
+            else{
+                Jogo.setPlayable(true);
+            }
+        }
+        
     }
     
     @Override
@@ -54,17 +63,15 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCliente {
         }
     }
     
-    @Override
-    public String getNomeUtilizador() throws RemoteException{
+    public String getNomeUtilizador(){
         return nomeUtilizador;
     }
 
-    @Override
-    public int getTipo() throws RemoteException{
+    public int getTipo(){
         return tipo;
     }
-    @Override
-    public InterfaceCliente getReferencia() throws RemoteException{
+
+    public InterfaceCliente getReferencia(){
         return refCliente;
     }
 
@@ -72,9 +79,10 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCliente {
     public void adicionaObservador(String nome) throws RemoteException {
         Jogo.addObservador(nome);
     }
+    
     @Override
-    public void movePecas(int inicialX,int inicialY,int finalX,int finalY,int tipo,int cor) throws RemoteException{
-        Jogo.setPecas(inicialX,inicialY,finalX,finalY,tipo,cor);
+    public void removerObservador(String nome) throws RemoteException {
+        Jogo.removerObservador(nome);
     }
 
     @Override
@@ -82,6 +90,11 @@ public class Cliente extends UnicastRemoteObject implements InterfaceCliente {
         Jogo.setPiecesPosition(pecasTabuleiro);
         Jogo.setPecasFora(pecasForaBrancas, pecasForaPretas);
         
+    }
+
+    @Override
+    public void escreverChat(String mensagem) throws RemoteException {
+        Jogo.escreveMensagem(mensagem);
     }
     
 }

@@ -59,6 +59,17 @@ public class IniciarJogador extends javax.swing.JFrame {
 
         jLabel3.setText("Nome do Utilizador");
 
+        nome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nomeActionPerformed(evt);
+            }
+        });
+        nome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                nomeKeyPressed(evt);
+            }
+        });
+
         entrar.setText("Entrar");
         entrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,7 +130,8 @@ public class IniciarJogador extends javax.swing.JFrame {
             objRemoto = (InterfaceJogo) reg.lookup("Xadrez");
             this.setVisible(false);
             cliente = new Cliente(nome,objRemoto);
-            if(!objRemoto.registrarCliente(cliente)){
+            cliente.setTipo(objRemoto.registrarCliente(cliente,nome) );
+            if(cliente.getTipo() == -1){
                 JOptionPane.showMessageDialog(this, "Ja existe um utilizador com o seu nome, altere o nome e tente novamente","Erro - Nome Igual",JOptionPane.WARNING_MESSAGE);
                 this.setVisible(true);
             }
@@ -139,6 +151,15 @@ public class IniciarJogador extends javax.swing.JFrame {
 
     
     }//GEN-LAST:event_entrarActionPerformed
+
+    private void nomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nomeKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nomeKeyPressed
+
+    private void nomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeActionPerformed
+        // TODO add your handling code here:
+        entrarActionPerformed(evt);
+    }//GEN-LAST:event_nomeActionPerformed
 
     /**
      * @param args the command line arguments

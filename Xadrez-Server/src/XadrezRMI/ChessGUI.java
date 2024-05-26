@@ -141,7 +141,7 @@ public class ChessGUI extends JPanel implements Serializable {
     public void setPlayable(boolean estado){
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                this.board[i][j].setFocusable(estado);
+                this.board[i][j].setPlayable(estado);
             }
         }
     }

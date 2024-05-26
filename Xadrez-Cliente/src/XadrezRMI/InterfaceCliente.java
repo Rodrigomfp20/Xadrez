@@ -13,15 +13,14 @@ import java.util.ArrayList;
  * @author raulm
  */
 public interface InterfaceCliente extends Remote {
-    
-    
-    void atualizarTabuleiro(ArrayList<Peca> pecasTabuleiro,ArrayList<Peca> pecasForaBrancas,ArrayList<Peca> pecasForaPretas) throws RemoteException;
-    void alteranome(int player,String nome) throws RemoteException;
-    void adicionaObservador(String nome) throws RemoteException;
-    int getTipo() throws RemoteException;
-    void setTipo(int tipo) throws RemoteException;
-    InterfaceCliente getReferencia()throws RemoteException;
-    String getNomeUtilizador()throws RemoteException;
-    void movePecas(int inicialX,int inicialY,int finalX,int finalY,int tipo,int cor) throws RemoteException;
 
+    public void atualizarTabuleiro(ArrayList<Peca> pecasTabuleiro, ArrayList<Peca> pecasForaBrancas, ArrayList<Peca> pecasForaPretas) throws RemoteException;
+
+    public void alteranome(int player, String nome) throws RemoteException;
+
+    public void adicionaObservador(String nome) throws RemoteException;
+
+    public void removerObservador(String nome) throws RemoteException;
+
+    public void escreverChat(String mensagem) throws RemoteException;
 }

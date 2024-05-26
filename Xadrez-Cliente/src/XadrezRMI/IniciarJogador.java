@@ -117,11 +117,17 @@ public class IniciarJogador extends javax.swing.JFrame {
             InetAddress ia = InetAddress.getByName(ip);
             Registry reg = LocateRegistry.getRegistry(ia.getHostAddress(), porto);
             objRemoto = (InterfaceJogo) reg.lookup("Xadrez");
-            
-            JOptionPane.showMessageDialog(this, "Conectado com sucesso","Sucesso",JOptionPane.INFORMATION_MESSAGE);
             this.setVisible(false);
             cliente = new Cliente(nome,objRemoto);
-            objRemoto.registrarCliente(cliente);
+            if(!objRemoto.registrarCliente(cliente)){
+                JOptionPane.showMessageDialog(this, "Ja existe um utilizador com o seu nome, altere o nome e tente novamente","Erro - Nome Igual",JOptionPane.WARNING_MESSAGE);
+                this.setVisible(true);
+            }
+            else{
+                System.out.println(cliente.getTipo());
+                JOptionPane.showMessageDialog(this, "Conectado com sucesso","Sucesso",JOptionPane.INFORMATION_MESSAGE);
+                cliente.mostrarJanela();
+            }
            
         } catch (UnknownHostException ex) {
             Logger.getLogger(IniciarJogador.class.getName()).log(Level.SEVERE, null, ex);

@@ -39,9 +39,7 @@ public class ChessGUI extends JPanel implements Serializable {
         }
         add(chessPanel,BorderLayout.CENTER);
         organizaPecas();
-
-
-
+        
         //board[7][3].removePiece();
         //board[0][0].setBackColor(1);
     }
@@ -60,23 +58,38 @@ public class ChessGUI extends JPanel implements Serializable {
         System.out.println("Posicao -> " + letras[y] + (8-x)); 
     }
     public void moverPeca(int inicialX, int inicialY,int finalX, int finalY, int tipo , int cor){
-        board[finalX][finalY].setPiece(cor,tipo);
-        board[inicialX][inicialY].removePiece();
-        System.out.println("moverPeca");
+        if(board[inicialX][inicialY].getPeca().getColor() == cor && board[inicialX][inicialY].getPeca().getType() != -1){
+            if(board[finalX][finalY].getType() != -1){
+                mesaJogo.adicionaPecaFora(board[finalX][finalY].getColor(), board[finalX][finalY].getType());
+            }
+            board[finalX][finalY].setPiece(cor,tipo);
+            board[inicialX][inicialY].removePiece();
+            System.out.println("moverPeca");
+            atualizaServidor();
+        }
+    }
+    public void atualizaServidor(){
+        ArrayList<Peca> pecasTabuleiro = mesaJogo.getPiecesPosition();
+        ArrayList<Peca> pecasForaBrancas = mesaJogo.getPecasBrancas();
+        ArrayList<Peca> pecasForaPretas = mesaJogo.getPecasPretas();
         try {
-            mesaJogo.getRefServidor().moverPecaServidor(inicialX,inicialY,finalX,finalY,tipo ,cor);
+            mesaJogo.getRefServidor().moverPecaServidor(pecasTabuleiro,pecasForaBrancas,pecasForaPretas);
         } catch (RemoteException ex) {
             Logger.getLogger(ChessGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     public void adicionarPeca(int inicialX, int inicialY,int finalX, int finalY, int tipo , int cor){
             mesaJogo.removePecaFora(cor,inicialX,inicialY);
+            board[finalX][finalY].setPiece(cor,tipo);
+            atualizaServidor();
     }
-    
     public void moverPecaLocal(int inicialX, int inicialY,int finalX, int finalY, int tipo , int cor){
         board[finalX][finalY].setPiece(cor,tipo);
         board[inicialX][inicialY].removePiece();
         System.out.println("moverPeca");
+    }
+    public void removerPeca(int row, int collumn){
+        board[row][collumn].setPiece(0, -1);
     }
     
     
@@ -108,6 +121,7 @@ public class ChessGUI extends JPanel implements Serializable {
         for(int i=0;i<8;i++){
             board[1][i].setPiece(1, 0); 
         }
+        
     }
     public void limpaTabuleiro(){
         for (int i = 0; i < 8; i++) {
@@ -121,6 +135,13 @@ public class ChessGUI extends JPanel implements Serializable {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 this.board[i][j].setPiece(pecas.get(i*8+j).getColor(),pecas.get(i*8+j).getType());
+            }
+        }
+    }
+    public void setPlayable(boolean estado){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                this.board[i][j].setFocusable(estado);
             }
         }
     }

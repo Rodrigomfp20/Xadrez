@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.io.Serializable;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -21,10 +25,10 @@ public class TabelaGUI extends JPanel implements Serializable {
 
     private JPanel chessPanel = new JPanel();
 
-    private JPanel mesa = new JPanel();
+    private Mesa mesaJogo;
 
-    public TabelaGUI(int cor) {
-
+    public TabelaGUI(int cor,Mesa mesaJogo) {
+        this.mesaJogo = mesaJogo;
         SquarePanel.loadPieceImages();
         chessPanel.setSize(380, 95);
         chessPanel.setLayout(new GridLayout(2, 8));
@@ -39,6 +43,17 @@ public class TabelaGUI extends JPanel implements Serializable {
         }
         add(chessPanel, BorderLayout.CENTER);
     }
+    
+    public ArrayList<Peca> getBoard(){
+        ArrayList<Peca> pecas = new ArrayList();
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 8; j++) {
+                pecas.add(board[i][j].getPeca());
+            }
+        }
+        return pecas;
+    }
+    
     public void selected(int x, int y,int cor) {
         String[] letras =  {"a","b","c","d","e","f","g","h"};
         System.out.println("Posicao -> " + letras[y] + (8-x));
@@ -55,11 +70,44 @@ public class TabelaGUI extends JPanel implements Serializable {
         board[1][5].setPiece(cor, 2);
         board[1][6].setPiece(cor, 1);
         board[1][7].setPiece(cor, 3);
+        System.out.println(board.length);
         for (int i = 0; i < 8; i++) {
             board[0][i].setPiece(cor, 0);
         }
     }
-
+    public void adicionaPeca(int row,int collumn,int cor, int tipo){
+        mesaJogo.removePecaDentro(row,collumn);
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 8; j++) {
+                System.out.println("A percorrer as pecas da tabela...");
+                if(board[i][j].getType() == -1){
+                    board[i][j].setPiece(cor, tipo);
+                    j=10;
+                    i=3;
+                }
+            }
+        }
+        atualizaServidor();
+    }
+    public void setBoard(ArrayList<Peca> pecas){
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 8; j++) {
+                this.board[i][j].setPiece(pecas.get(i*8+j).getColor(),pecas.get(i*8+j).getType());
+            }
+        }
+    }
+    
+    public void atualizaServidor(){
+        ArrayList<Peca> pecasTabuleiro = mesaJogo.getPiecesPosition();
+        ArrayList<Peca> pecasForaBrancas = mesaJogo.getPecasBrancas();
+        ArrayList<Peca> pecasForaPretas = mesaJogo.getPecasPretas();
+        try {
+            mesaJogo.getRefServidor().moverPecaServidor(pecasTabuleiro,pecasForaBrancas,pecasForaPretas);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ChessGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void limpaTabuleiro() {
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 8; j++) {

@@ -11,6 +11,8 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -47,8 +49,13 @@ public class XadrezServer extends UnicastRemoteObject implements InterfaceJogo {
         // TODO code application logic here
     }
 
-    public void registrarCliente(InterfaceCliente cliente) throws RemoteException {
+    public boolean registrarCliente(InterfaceCliente cliente) throws RemoteException {
         boolean player1 = false, player2 = false;
+        for(int i = 0; i < clientes.size(); i++){
+            if (clientes.get(i).getNomeUtilizador().equalsIgnoreCase(cliente.getNomeUtilizador())){
+                return false;
+            }
+        }
         int tipo = 0;
         for (int i = 0; i < clientes.size(); i++) {
             if (clientes.get(i).getTipo() == 1) {
@@ -94,18 +101,14 @@ public class XadrezServer extends UnicastRemoteObject implements InterfaceJogo {
             System.out.println("Nome: " + clientes.get(i).getNomeUtilizador() + " | Tipo: " + clientes.get(i).getTipo());
         }
         System.out.println("Cliente registrado: " + cliente);
-        ArrayList<Peca> pecas = mesa.getPiecesPosition();
-        
-        cliente.atualizarTabuleiro(pecas);
+        atualizarClientes();
+        return true;
     }
     @Override
-    public void moverPecaServidor(int inicialX,int inicialY,int finalX,int finalY,int tipo,int cor) throws RemoteException{
-        mesa.setPecas(inicialX, inicialY, finalX, finalY, tipo, cor);
-        for (int i = 0; i < clientes.size(); i++) {
-            System.out.println("Mover");
-            clientes.get(i).getReferencia().movePecas(inicialX,inicialY,finalX,finalY,tipo,cor);
-        }
-        
+    public void moverPecaServidor(ArrayList<Peca> pecasTabuleiro,ArrayList<Peca> pecasForaBrancas,ArrayList<Peca> pecasForaPretas) throws RemoteException{
+        mesa.setPiecesPosition(pecasTabuleiro);
+                mesa.setPecasFora(pecasForaBrancas, pecasForaPretas);
+        atualizarClientes();
     }
 
 
@@ -134,9 +137,19 @@ public class XadrezServer extends UnicastRemoteObject implements InterfaceJogo {
     @Override
     public void organizaPecas() throws RemoteException {
         mesa.organizaPecas();
-        ArrayList<Peca> pecas = mesa.getPiecesPosition();
+        atualizarClientes();
+    }
+    
+    public void atualizarClientes(){
+        ArrayList<Peca> pecasTabuleiro = mesa.getPiecesPosition();
+        ArrayList<Peca> pecasForaBrancas = mesa.getPecasBrancas();
+        ArrayList<Peca> pecasForaPretas = mesa.getPecasPretas();
         for (int i = 0; i < clientes.size(); i++) {
-            clientes.get(i).getReferencia().atualizarTabuleiro(pecas);
+            try {
+                clientes.get(i).getReferencia().atualizarTabuleiro(pecasTabuleiro,pecasForaBrancas,pecasForaPretas);
+            } catch (RemoteException ex) {
+                Logger.getLogger(XadrezServer.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

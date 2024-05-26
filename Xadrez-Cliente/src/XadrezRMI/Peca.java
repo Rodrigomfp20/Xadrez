@@ -15,7 +15,7 @@ public class Peca implements Serializable {
     
     Peca(int color){
         this.color = color;
-        this.type = type;
+        this.type = -1;
     }
 
     public int getColor() {

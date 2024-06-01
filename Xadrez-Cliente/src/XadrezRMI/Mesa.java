@@ -125,6 +125,12 @@ public class Mesa extends javax.swing.JFrame {
             }
         });
 
+        mensagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mensagemActionPerformed(evt);
+            }
+        });
+
         observar.setLabel("Passar a Observador");
         observar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -364,6 +370,11 @@ public class Mesa extends javax.swing.JFrame {
             Logger.getLogger(Mesa.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void mensagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mensagemActionPerformed
+        // TODO add your handling code here:
+        jButton1ActionPerformed(evt);
+    }//GEN-LAST:event_mensagemActionPerformed
 
     public void setNome1(String nome) {
         this.nome1.setText(nome);

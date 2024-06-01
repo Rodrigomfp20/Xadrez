@@ -291,7 +291,7 @@ public class XadrezServer extends UnicastRemoteObject implements InterfaceJogo {
         }
         for (int i = 0; i < clientes.size(); i++) {
             try{
-                //enviarMensagem("saiu do jogo",nome);
+                enviarMensagem("Saiu do jogo",nome);
                 if (tipoAux != 3) {
                     clientes.get(i).getReferencia().alteranome(tipoAux, "Posicao" + tipoAux);
                 } else {

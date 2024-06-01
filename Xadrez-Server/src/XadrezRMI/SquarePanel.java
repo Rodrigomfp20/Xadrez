@@ -105,10 +105,7 @@ public class SquarePanel extends JPanel implements Serializable {
     }
 
     public boolean verificaPeca() {
-        if (imageLabel == null) {
-            return false;
-        }
-        return true;
+        return imageLabel != null;
     }
 
     public int getSelectedX() {

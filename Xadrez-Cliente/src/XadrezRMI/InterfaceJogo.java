@@ -21,7 +21,7 @@ public interface InterfaceJogo extends Remote {
     
     public void removerCliente(String nome) throws RemoteException;
     
-    public void moverPecaServidor(ArrayList<Peca> pecasTabuleiro,ArrayList<Peca> pecasForaBrancas,ArrayList<Peca> pecasForaPretas) throws RemoteException;
+    public void moverPecaServidor(ArrayList<Peca> pecasTabuleiro,ArrayList<Peca> pecasForaBrancas,ArrayList<Peca> pecasForaPretas,String posInicial, String posFinal) throws RemoteException;
     
     public void organizaPecas() throws RemoteException;
     

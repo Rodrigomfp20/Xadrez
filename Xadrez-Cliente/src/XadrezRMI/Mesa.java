@@ -56,12 +56,12 @@ public class Mesa extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         mensagem = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        observar = new javax.swing.JButton();
         arrumarPecas = new javax.swing.JButton();
         removerPecas = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        pecasPretas = new TabelaGUI(1,this);
         pecasBrancas = new TabelaGUI(0,this);
+        pecasPretas = new TabelaGUI(1,this);
         jScrollPane5 = new javax.swing.JScrollPane();
         observadores = new javax.swing.JTable();
 
@@ -125,10 +125,10 @@ public class Mesa extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setLabel("Passar a Observador");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        observar.setLabel("Passar a Observador");
+        observar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                observarActionPerformed(evt);
             }
         });
 
@@ -153,19 +153,6 @@ public class Mesa extends javax.swing.JFrame {
             }
         });
 
-        pecasPretas.setPreferredSize(new java.awt.Dimension(100, 100));
-
-        javax.swing.GroupLayout pecasPretasLayout = new javax.swing.GroupLayout(pecasPretas);
-        pecasPretas.setLayout(pecasPretasLayout);
-        pecasPretasLayout.setHorizontalGroup(
-            pecasPretasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 380, Short.MAX_VALUE)
-        );
-        pecasPretasLayout.setVerticalGroup(
-            pecasPretasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
         pecasBrancas.setPreferredSize(new java.awt.Dimension(100, 100));
 
         javax.swing.GroupLayout pecasBrancasLayout = new javax.swing.GroupLayout(pecasBrancas);
@@ -176,6 +163,19 @@ public class Mesa extends javax.swing.JFrame {
         );
         pecasBrancasLayout.setVerticalGroup(
             pecasBrancasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        pecasPretas.setPreferredSize(new java.awt.Dimension(100, 100));
+
+        javax.swing.GroupLayout pecasPretasLayout = new javax.swing.GroupLayout(pecasPretas);
+        pecasPretas.setLayout(pecasPretasLayout);
+        pecasPretasLayout.setHorizontalGroup(
+            pecasPretasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 380, Short.MAX_VALUE)
+        );
+        pecasPretasLayout.setVerticalGroup(
+            pecasPretasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
@@ -197,12 +197,12 @@ public class Mesa extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
+                    .addComponent(observar, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(chessBoard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pecasPretas, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pecasBrancas, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pecasPretas, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(arrumarPecas)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -235,7 +235,7 @@ public class Mesa extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton2))
+                                .addComponent(observar))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -248,7 +248,7 @@ public class Mesa extends javax.swing.JFrame {
                         .addGap(75, 75, 75))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(13, 13, 13)
-                        .addComponent(pecasBrancas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pecasPretas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(nome2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
@@ -256,7 +256,7 @@ public class Mesa extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(nome1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pecasPretas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pecasBrancas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(arrumarPecas)
@@ -291,7 +291,7 @@ public class Mesa extends javax.swing.JFrame {
         this.limpaTabuleiro();
     }//GEN-LAST:event_removerPecasActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void observarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_observarActionPerformed
         // TODO add your handling code here:
         if (this.cliente.getTipo() != 3) {
             if (this.cliente.getTipo() == 1) {
@@ -309,7 +309,7 @@ public class Mesa extends javax.swing.JFrame {
             }
             this.cliente.setTipo(3);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_observarActionPerformed
 
     private void nome2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nome2MouseClicked
         // TODO add your handling code here:
@@ -358,15 +358,13 @@ public class Mesa extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             refServidor.removerCliente(cliente.getNomeUtilizador());
+            
             System.exit(0);
         } catch (RemoteException ex) {
             Logger.getLogger(Mesa.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public void setNome1(String nome) {
         this.nome1.setText(nome);
     }
@@ -399,11 +397,11 @@ public class Mesa extends javax.swing.JFrame {
 
     public void removePecaFora(int cor, int row, int column) {
         if (cor == 1) {
-            pecasBrancas.removerPeca(row, column);
+            pecasPretas.removerPeca(row, column);
             System.out.println("coluna: " + row + "linha -> " + column);
         } else {
             System.out.println("coluna: " + row + "linha -> " + column);
-            pecasPretas.removerPeca(row, column);
+            pecasBrancas.removerPeca(row, column);
         }
 
     }
@@ -413,11 +411,11 @@ public class Mesa extends javax.swing.JFrame {
     }
 
     public ArrayList<Peca> getPecasBrancas() {
-        return pecasBrancas.getBoard();
+        return pecasPretas.getBoard();
     }
 
     public ArrayList<Peca> getPecasPretas() {
-        return pecasPretas.getBoard();
+        return pecasBrancas.getBoard();
     }
 
     public ArrayList<Peca> getPiecesPosition() {
@@ -429,30 +427,30 @@ public class Mesa extends javax.swing.JFrame {
     }
 
     public void setPecasFora(ArrayList<Peca> pecasBrancas, ArrayList<Peca> pecasPretas) {
-        this.pecasBrancas.setBoard(pecasBrancas);
-        this.pecasPretas.setBoard(pecasPretas);
+        this.pecasPretas.setBoard(pecasBrancas);
+        this.pecasBrancas.setBoard(pecasPretas);
     }
 
     public void organizaPecas() {
         chessBoard.organizaPecas();
-        pecasBrancas.limpaTabuleiro();
         pecasPretas.limpaTabuleiro();
-        chessBoard.atualizaServidor();
+        pecasBrancas.limpaTabuleiro();
+        chessBoard.atualizaServidor("Normal","Organizado");
     }
 
     ;
 public void limpaTabuleiro() {
         chessBoard.limpaTabuleiro();
-        pecasBrancas.organizaPecas(1);
-        pecasPretas.organizaPecas(0);
-        chessBoard.atualizaServidor();
+        pecasPretas.organizaPecas(1);
+        pecasBrancas.organizaPecas(0);
+        chessBoard.atualizaServidor("Normal","Limpo");
     }
 
     public void adicionaPecaFora(int cor, int tipo) {
         if (cor == 1) {
-            pecasBrancas.adicionaPeca(-1, -1, cor, tipo);
-        } else {
             pecasPretas.adicionaPeca(-1, -1, cor, tipo);
+        } else {
+            pecasBrancas.adicionaPeca(-1, -1, cor, tipo);
         }
     }
 
@@ -460,6 +458,7 @@ public void limpaTabuleiro() {
         this.chessBoard.setPlayable(estado);
         this.arrumarPecas.setEnabled(estado);
         this.removerPecas.setEnabled(estado);
+        this.observar.setEnabled(estado);
     }
 
     public void escreveMensagem(String mensagem) {
@@ -473,7 +472,6 @@ public void limpaTabuleiro() {
     private javax.swing.JPanel chessBoard;
     */
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
@@ -484,6 +482,7 @@ public void limpaTabuleiro() {
     private javax.swing.JLabel nome1;
     private javax.swing.JLabel nome2;
     private javax.swing.JTable observadores;
+    private javax.swing.JButton observar;
     /*
     private javax.swing.JPanel pecasBrancas;
     */

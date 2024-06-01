@@ -76,7 +76,10 @@ public class TabelaGUI extends JPanel implements Serializable {
         }
     }
     public void adicionaPeca(int row,int collumn,int cor, int tipo){
-        mesaJogo.removePecaDentro(row,collumn);
+        String[] letras =  {"a","b","c","d","e","f","g","h"};
+        if(row != -1 && collumn != -1){
+            mesaJogo.removePecaDentro(row,collumn);
+        }
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 8; j++) {
                 System.out.println("A percorrer as pecas da tabela...");
@@ -87,7 +90,7 @@ public class TabelaGUI extends JPanel implements Serializable {
                 }
             }
         }
-        atualizaServidor();
+        atualizaServidor(letras[row] + (8-collumn),"Fora");
     }
     public void setBoard(ArrayList<Peca> pecas){
         for (int i = 0; i < 2; i++) {
@@ -97,12 +100,12 @@ public class TabelaGUI extends JPanel implements Serializable {
         }
     }
     
-    public void atualizaServidor(){
+    public void atualizaServidor(String posInicial, String posFinal){
         ArrayList<Peca> pecasTabuleiro = mesaJogo.getPiecesPosition();
         ArrayList<Peca> pecasForaBrancas = mesaJogo.getPecasBrancas();
         ArrayList<Peca> pecasForaPretas = mesaJogo.getPecasPretas();
         try {
-            mesaJogo.getRefServidor().moverPecaServidor(pecasTabuleiro,pecasForaBrancas,pecasForaPretas);
+            mesaJogo.getRefServidor().moverPecaServidor(pecasTabuleiro,pecasForaBrancas,pecasForaPretas,posInicial,posFinal);
         } catch (RemoteException ex) {
             Logger.getLogger(ChessGUI.class.getName()).log(Level.SEVERE, null, ex);
         }

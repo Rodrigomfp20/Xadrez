@@ -1,7 +1,6 @@
 package XadrezRMI;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -9,7 +8,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -76,9 +74,7 @@ public class TabelaGUI extends JPanel implements Serializable {
         }
     }
     public void adicionaPeca(int row,int collumn,int cor, int tipo){
-        if(row != -1 && collumn != -1){
-            mesaJogo.removePecaDentro(row,collumn);
-        }
+        String[] letras =  {"a","b","c","d","e","f","g","h"};
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 8; j++) {
                 System.out.println("A percorrer as pecas da tabela...");
@@ -89,7 +85,14 @@ public class TabelaGUI extends JPanel implements Serializable {
                 }
             }
         }
-        atualizaServidor();
+        if(row != -1 && collumn != -1){
+            mesaJogo.removePecaDentro(row,collumn);
+            atualizaServidor(letras[row] + (8-collumn),"Fora");
+        }
+        else{
+            atualizaServidor("","Fora");
+        }
+        
     }
     public void setBoard(ArrayList<Peca> pecas){
         for (int i = 0; i < 2; i++) {
@@ -99,12 +102,12 @@ public class TabelaGUI extends JPanel implements Serializable {
         }
     }
     
-    public void atualizaServidor(){
+    public void atualizaServidor(String posInicial, String posFinal){
         ArrayList<Peca> pecasTabuleiro = mesaJogo.getPiecesPosition();
         ArrayList<Peca> pecasForaBrancas = mesaJogo.getPecasBrancas();
         ArrayList<Peca> pecasForaPretas = mesaJogo.getPecasPretas();
         try {
-            mesaJogo.getRefServidor().moverPecaServidor(pecasTabuleiro,pecasForaBrancas,pecasForaPretas);
+            mesaJogo.getRefServidor().moverPecaServidor(pecasTabuleiro,pecasForaBrancas,pecasForaPretas,posInicial,posFinal);
         } catch (RemoteException ex) {
             Logger.getLogger(ChessGUI.class.getName()).log(Level.SEVERE, null, ex);
         }

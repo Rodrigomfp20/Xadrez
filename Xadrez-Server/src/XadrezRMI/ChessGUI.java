@@ -58,6 +58,7 @@ public class ChessGUI extends JPanel implements Serializable {
         System.out.println("Posicao -> " + letras[y] + (8-x)); 
     }
     public void moverPeca(int inicialX, int inicialY,int finalX, int finalY, int tipo , int cor){
+        String[] letras =  {"a","b","c","d","e","f","g","h"};
         if(board[inicialX][inicialY].getPeca().getColor() == cor && board[inicialX][inicialY].getPeca().getType() != -1){
             if(board[finalX][finalY].getType() != -1){
                 mesaJogo.adicionaPecaFora(board[finalX][finalY].getColor(), board[finalX][finalY].getType());
@@ -65,23 +66,24 @@ public class ChessGUI extends JPanel implements Serializable {
             board[finalX][finalY].setPiece(cor,tipo);
             board[inicialX][inicialY].removePiece();
             System.out.println("moverPeca");
-            atualizaServidor();
+            atualizaServidor(letras[inicialY] + (8-inicialX),letras[finalY] + (8-finalX));
         }
     }
-    public void atualizaServidor(){
+    public void atualizaServidor(String posInicial, String posFinal){
         ArrayList<Peca> pecasTabuleiro = mesaJogo.getPiecesPosition();
         ArrayList<Peca> pecasForaBrancas = mesaJogo.getPecasBrancas();
         ArrayList<Peca> pecasForaPretas = mesaJogo.getPecasPretas();
         try {
-            mesaJogo.getRefServidor().moverPecaServidor(pecasTabuleiro,pecasForaBrancas,pecasForaPretas);
+            mesaJogo.getRefServidor().moverPecaServidor(pecasTabuleiro,pecasForaBrancas,pecasForaPretas,posInicial,posFinal);
         } catch (RemoteException ex) {
             Logger.getLogger(ChessGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     public void adicionarPeca(int inicialX, int inicialY,int finalX, int finalY, int tipo , int cor){
-            mesaJogo.removePecaFora(cor,inicialX,inicialY);
-            board[finalX][finalY].setPiece(cor,tipo);
-            atualizaServidor();
+        String[] letras =  {"a","b","c","d","e","f","g","h"};
+        mesaJogo.removePecaFora(cor,inicialX,inicialY);
+        board[finalX][finalY].setPiece(cor,tipo);
+        atualizaServidor("Fora",letras[finalY] + (8-finalX));
     }
     public void moverPecaLocal(int inicialX, int inicialY,int finalX, int finalY, int tipo , int cor){
         board[finalX][finalY].setPiece(cor,tipo);

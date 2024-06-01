@@ -21,13 +21,13 @@ public interface InterfaceJogo extends Remote {
     
     public void removerCliente(String nome) throws RemoteException;
     
-    public void moverPecaServidor(ArrayList<Peca> pecasTabuleiro,ArrayList<Peca> pecasForaBrancas,ArrayList<Peca> pecasForaPretas) throws RemoteException;
+    public void moverPecaServidor(ArrayList<Peca> pecasTabuleiro,ArrayList<Peca> pecasForaBrancas,ArrayList<Peca> pecasForaPretas,String posInicial, String posFinal) throws RemoteException;
     
     public void organizaPecas() throws RemoteException;
     
     public void atualizaPosicao(int posInicial, int posFinal, String nome) throws RemoteException;
     
-    public void enviarMensagem(String mensagem,String nome)throws RemoteException;
+    public void enviarMensagem(String mensagem, String nome)throws RemoteException;
 
 
 }

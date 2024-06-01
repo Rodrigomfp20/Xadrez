@@ -105,10 +105,7 @@ public class SquarePanel extends JPanel implements Serializable {
     }
 
     public boolean verificaPeca() {
-        if (imageLabel == null) {
-            return false;
-        }
-        return true;
+        return imageLabel != null;
     }
 
     public int getSelectedX() {
@@ -145,7 +142,7 @@ public class SquarePanel extends JPanel implements Serializable {
                 if (cg != null) {
                     cg.selected(row, column);
                     if (peca.getType() != -1) {
-                        if (tipoAtual != -1 && corAtual != peca.getColor()) {
+                        if (tipoAtual != -1 && corAtual != peca.getColor() && !lastTabela) {
                             int tipoAux = tipoAtual;
                             tipoAtual = -1;
                             cg.moverPeca(selectedRow, selectedCollumn, row, column, tipoAux, corAtual);
@@ -171,7 +168,6 @@ public class SquarePanel extends JPanel implements Serializable {
                     setBorder(BorderFactory.createLineBorder(Color.RED, 2));
                 } else {
                     tg.selected(row, column, cor);
-
                     if (peca.getType() != -1) {
                         selectedRow = row;
                         selectedCollumn = column;

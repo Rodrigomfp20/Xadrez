@@ -52,7 +52,7 @@ public class XadrezServer extends UnicastRemoteObject implements InterfaceJogo {
     }
 
     @Override
-    public int registrarCliente(InterfaceCliente cliente, String nome) throws RemoteException {
+    public synchronized int registrarCliente(InterfaceCliente cliente, String nome) throws RemoteException {
             boolean player1 = false, player2 = false;
             for (int i = 0; i < clientes.size(); i++) {
                 if (clientes.get(i).getNomeUtilizador().equalsIgnoreCase(nome)) {
@@ -137,7 +137,7 @@ public class XadrezServer extends UnicastRemoteObject implements InterfaceJogo {
     }
 
     @Override
-    public void atualizaPosicao(int posInicial, int posFinal, String nome) throws RemoteException  {
+    public synchronized void atualizaPosicao(int posInicial, int posFinal, String nome) throws RemoteException  {
         for (int i = 0; i < clientes.size(); i++) {
             if (clientes.get(i).getNomeUtilizador().equals(nome)) {
                 System.out.println("A posicao do cliente \"" + nome + "\" foi alterada de " + posInicial + " para " + posFinal);
@@ -220,7 +220,7 @@ public class XadrezServer extends UnicastRemoteObject implements InterfaceJogo {
     }
 
     @Override
-    public void moverPecaServidor(ArrayList<Peca> pecasTabuleiro, ArrayList<Peca> pecasForaBrancas, ArrayList<Peca> pecasForaPretas,String posInicial, String posFinal) throws RemoteException {
+    public synchronized void moverPecaServidor(ArrayList<Peca> pecasTabuleiro, ArrayList<Peca> pecasForaBrancas, ArrayList<Peca> pecasForaPretas,String posInicial, String posFinal) throws RemoteException {
         
         if(posFinal.equals("Organizado")){
             System.out.println("O tabuleiro foi arrumado.");
@@ -259,13 +259,13 @@ public class XadrezServer extends UnicastRemoteObject implements InterfaceJogo {
     }
 
     @Override
-    public void organizaPecas() throws RemoteException {
+    public synchronized void organizaPecas() throws RemoteException {
         mesa.organizaPecas();
         System.out.println("As peças foram arrumadas.");
         atualizarClientes();
     }   
 
-    public void atualizarClientes() throws RemoteException  {
+    public synchronized void atualizarClientes() throws RemoteException  {
         ArrayList<Peca> pecasTabuleiro = mesa.getPiecesPosition();
         ArrayList<Peca> pecasForaBrancas = mesa.getPecasBrancas();
         ArrayList<Peca> pecasForaPretas = mesa.getPecasPretas();
@@ -280,7 +280,7 @@ public class XadrezServer extends UnicastRemoteObject implements InterfaceJogo {
     }
 
     @Override
-    public void removerCliente(String nome)  {
+    public synchronized void removerCliente(String nome)  {
         int tipoAux = 0;
         for (int i = 0; i < clientes.size(); i++) {
             if (clientes.get(i).getNomeUtilizador().equals(nome)) {
@@ -306,7 +306,7 @@ public class XadrezServer extends UnicastRemoteObject implements InterfaceJogo {
     }
 
     @Override
-    public void enviarMensagem(String mensagem, String nome) {
+    public synchronized void enviarMensagem(String mensagem, String nome) {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String hora = now.format(formatter);
